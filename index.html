@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Video</title>
+</head>
+<body>
+    <div id="video-container">
+        <video id="video-player" controls></video>
+    </div>
+
+    <script>
+        // Function to fetch video data from the server
+        function fetchVideoData() {
+            fetch('http://127.0.0.1:5000/sendvideo')
+                .then(response => response.json())
+                .then(data => displayVideo(data))
+                .catch(error => console.error('Error fetching video data:', error));
+        }
+
+        // Function to display the video on the webpage
+        function displayVideo(videoData) {
+            const videoPlayer = document.getElementById('video-player');
+            const videoSource = 'data:video/mp4;base64,' + videoData.file_data;
+
+            // Set the video source and other attributes
+            videoPlayer.src = videoSource;
+            videoPlayer.type = 'video/mp4';
+            videoPlayer.setAttribute('width', '640');
+            videoPlayer.setAttribute('height', '480');
+
+            // You can also display the file name and size if needed
+            console.log('Video File Name:', videoData.file_name);
+            console.log('Video File Size:', videoData.file_size);
+        }
+
+        // Call the function to fetch and display the video data
+        fetchVideoData();
+    </script>
+</body>
+</html>
+
+
